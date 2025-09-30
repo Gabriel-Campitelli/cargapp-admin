@@ -1,0 +1,396 @@
+
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
+/* Design System: variables, mixins, base */
+:root {
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-border: #e5e7eb;
+
+  --text-900: #0f172a;
+  --text-700: #334155;
+  --text-500: #64748b;
+
+  --primary-600: #2563eb;
+  --primary-700: #1d4ed8;
+  --primary-50: #eff6ff;
+
+  --emerald-600: #059669;
+  --emerald-50: #ecfdf5;
+
+  --amber-600: #b45309;
+  --amber-50: #fffbeb;
+
+  --rose-600: #e11d48;
+  --rose-50: #fff1f2;
+
+  --purple-600: #7c3aed;
+  --purple-50: #f5f3ff;
+
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-600: #4b5563;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.08);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  --font-ui: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, 'Helvetica Neue',
+    Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+@mixin card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+@mixin btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+@mixin input-base {
+  width: 100%;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--text-900);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus {
+    border-color: var(--primary-600);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  }
+}
+
+/* Base */
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  color: var(--text-900);
+  background: var(--color-bg);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0 0 var(--space-3);
+  line-height: 1.2;
+}
+
+/* Layout util */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+/* Card */
+.card {
+  @include card;
+  padding: var(--space-6);
+
+  &-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+  }
+}
+
+/* Botones */
+.btn {
+  @include btn-base;
+  background: #fff;
+  border-color: var(--color-border);
+  color: var(--text-700);
+
+  &:hover {
+    background: var(--gray-50);
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &.btn-primary {
+    background: var(--primary-600);
+    color: #fff;
+    border-color: var(--primary-600);
+
+    &:hover {
+      background: var(--primary-700);
+    }
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &.btn-secondary {
+    background: var(--gray-100);
+    color: var(--text-700);
+    border-color: var(--gray-200);
+  }
+
+  &.btn-outline-primary {
+    background: transparent;
+    border-color: var(--primary-600);
+    color: var(--primary-600);
+
+    &:hover {
+      background: var(--primary-50);
+    }
+  }
+
+  &.btn-outline-danger {
+    background: transparent;
+    border-color: var(--rose-600);
+    color: var(--rose-600);
+
+    &:hover {
+      background: var(--rose-50);
+    }
+  }
+
+  &.btn-sm {
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+}
+
+/* Formularios */
+form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.form-group {
+  display: grid;
+  gap: 6px;
+
+  label {
+    font-size: 13px;
+    color: var(--text-500);
+    font-weight: 600;
+  }
+
+  input[type='text'],
+  input[type='number'],
+  input[type='date'],
+  select,
+  textarea {
+    @include input-base;
+  }
+
+  .error {
+    color: var(--rose-600);
+    font-size: 12px;
+  }
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid transparent;
+
+  &.badge-success {
+    color: var(--emerald-600);
+    background: var(--emerald-50);
+    border-color: rgba(5, 150, 105, 0.2);
+  }
+  &.badge-warning {
+    color: var(--amber-600);
+    background: var(--amber-50);
+    border-color: rgba(180, 83, 9, 0.2);
+  }
+  &.badge-danger {
+    color: var(--rose-600);
+    background: var(--rose-50);
+    border-color: rgba(225, 29, 72, 0.2);
+  }
+}
+
+/* Tabla */
+.table-responsive {
+  width: 100%;
+  overflow: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: #fff;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background: var(--gray-50);
+    color: var(--text-500);
+
+    th {
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--color-border);
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    tr {
+      border-top: 1px solid var(--color-border);
+
+      &:hover {
+        background: #fff;
+      }
+    }
+
+    td {
+      padding: 12px 16px;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+  }
+}
+
+/* Filtros bar */
+.filters-bar {
+  @include card;
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+/* Utilidades de grid simples */
+.row {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-4);
+}
+.col-12 {
+  grid-column: span 12;
+}
+.col-md-3 {
+  grid-column: span 12;
+}
+@media (min-width: 768px) {
+  .col-md-3 {
+    grid-column: span 3;
+  }
+}
+
+/* Topbar / Sidebar (si los usas) */
+.topbar {
+  height: 64px;
+  background: #fff;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+}
+
+.sidebar {
+  width: 260px;
+  background: #fff;
+  border-right: 1px solid var(--color-border);
+  padding: var(--space-4);
+}
+
+.main {
+  padding: var(--space-6);
+}
+
+/* QR Preview contenedor */
+.qr-preview {
+  margin-top: var(--space-6);
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+
+  canvas,
+  img {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+/* Links */
+a {
+  color: var(--primary-600);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

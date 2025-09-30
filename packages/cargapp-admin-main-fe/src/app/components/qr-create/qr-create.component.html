@@ -1,0 +1,92 @@
+<h2 mat-dialog-title>Generar QR</h2>
+
+<div mat-dialog-content class="grid two-cols gap-4">
+  <!-- Columna izquierda: Formulario -->
+  <form [formGroup]="qrForm" class="form grid gap-4">
+    <!-- Fila 1: Surtidor y Combustible -->
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Surtidor</mat-label>
+        <mat-select formControlName="surtidor">
+          <mat-option *ngFor="let s of surtidores" [value]="s">
+            {{ s }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Combustible</mat-label>
+        <mat-select formControlName="combustible">
+          <mat-option *ngFor="let c of combustibles" [value]="c">
+            {{ c }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Fila 2: Tipo + Valor -->
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="tipo">
+          <mat-option value="monto">Monto</mat-option>
+          <mat-option value="litros">Litros</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      @if (qrForm.value.tipo === 'monto') {
+      <mat-form-field appearance="outline">
+        <mat-label>Monto ($)</mat-label>
+        <input matInput type="number" formControlName="monto" />
+      </mat-form-field>
+      } @else {
+      <mat-form-field appearance="outline">
+        <mat-label>Litros</mat-label>
+        <input matInput type="number" formControlName="litros" />
+      </mat-form-field>
+      }
+    </div>
+
+    <!-- Fila 3: Vencimiento + Nota -->
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Vencimiento (min)</mat-label>
+        <input matInput type="number" formControlName="venceMin" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nota (opcional)</mat-label>
+        <input matInput type="text" formControlName="nota" />
+      </mat-form-field>
+    </div>
+  </form>
+
+  <!-- Columna derecha: Preview -->
+  <div class="preview">
+    <h4>Vista previa</h4>
+    @if (resultado) {
+    <qrcode [qrdata]="resultado.paymentUrl" elementType="canvas" [width]="220"> </qrcode>
+
+    <div class="meta">
+      <div><strong>ID:</strong> {{ resultado.id }}</div>
+      <div><strong>Estado:</strong> {{ resultado.status }}</div>
+      <a [href]="resultado.paymentUrl" target="_blank">Abrir enlace de pago</a>
+    </div>
+    }
+  </div>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close>Cancelar</button>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="crear()"
+    [disabled]="qrForm.invalid || cargando"
+  >
+    Generar
+  </button>
+  <button mat-raised-button color="primary" (click)="cerrar()" [disabled]="!resultado">
+    Cerrar y devolver
+  </button>
+</div>

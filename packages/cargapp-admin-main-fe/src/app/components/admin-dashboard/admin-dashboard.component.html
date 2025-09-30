@@ -1,0 +1,96 @@
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h2>QRs Activos</h2>
+    <button mat-raised-button color="primary" (click)="abrirCrearQr()">
+      <mat-icon>add</mat-icon>
+      Nuevo QR
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <form [formGroup]="filtrosForm" class="filters-bar">
+    <div class="row">
+      <div class="col-md-3">
+        <label>Estado</label>
+        <select formControlName="estado" class="form-control">
+          <option value="">Todos</option>
+          <option value="Pendiente">Pendiente</option>
+          <option value="Pagado">Pagado</option>
+          <option value="Vencido">Vencido</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label>Surtidor</label>
+        <select formControlName="surtidor" class="form-control">
+          <option value="">Todos</option>
+          <option *ngFor="let s of surtidores" [value]="s">{{ s }}</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label>Fecha desde</label>
+        <input formControlName="fechaDesde" type="date" class="form-control" />
+      </div>
+      <div class="col-md-3">
+        <label>Fecha hasta</label>
+        <input formControlName="fechaHasta" type="date" class="form-control" />
+      </div>
+    </div>
+    <button type="button" (click)="aplicarFiltros()" class="btn btn-outline-primary">
+      Filtrar
+    </button>
+    <button type="button" (click)="limpiarFiltros()" class="btn btn-outline-secondary">
+      Limpiar
+    </button>
+  </form>
+
+  <!-- Tabla -->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Surtidor</th>
+          <th>Combustible</th>
+          <th>Monto</th>
+          <th>Estado</th>
+          <th>Creado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let qr of qrsFiltrados">
+          <td>{{ qr.id }}</td>
+          <td>{{ qr.surtidor }}</td>
+          <td>{{ qr.combustible }}</td>
+          <td>{{ qr.monto | currency : 'ARS' : 'symbol' : '1.0-0' }}</td>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="{
+                'badge-warning': qr.estado === 'Pendiente',
+                'badge-success': qr.estado === 'Pagado',
+                'badge-danger': qr.estado === 'Vencido'
+              }"
+            >
+              {{ qr.estado }}
+            </span>
+          </td>
+          <td>{{ qr.creado | date : 'short' }}</td>
+          <td>
+            <button (click)="verQR(qr)" class="btn btn-sm btn-outline-primary">Ver</button>
+            <button (click)="imprimirQR(qr)" class="btn btn-sm btn-outline-secondary">
+              Imprimir
+            </button>
+            <button
+              *ngIf="qr.estado === 'Pendiente'"
+              (click)="cancelarQR(qr)"
+              class="btn btn-sm btn-outline-danger"
+            >
+              Cancelar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
